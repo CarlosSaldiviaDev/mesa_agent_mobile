@@ -1,0 +1,24 @@
+# python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+
+# secrets (never commit)
+config.yaml
+config/agent.env
+config/.env
+config/play-service-account.json
+config/exportOptions.plist
+
+# logs / artifacts
+logs/*
+!logs/.gitkeep
+artifacts/
+
+# os / ide
+.DS_Store
+.idea/
+.vscode/

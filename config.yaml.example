@@ -1,0 +1,4 @@
+telegram:
+  token: "REPLACE_WITH_BOTFATHER_TOKEN"
+  allowed_users:
+    - 874877952
