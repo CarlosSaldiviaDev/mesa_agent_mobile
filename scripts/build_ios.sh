@@ -16,7 +16,29 @@ COMMIT=$(git -C "$PROJECT" rev-parse --short HEAD 2>/dev/null || echo local)
 
 "$FLUTTER" clean
 "$FLUTTER" pub get
-(cd ios && rm -rf Pods && pod install --repo-update)
+
+pod_install_with_retry() {
+  local attempt=1
+  local max=3
+  while (( attempt <= max )); do
+    echo "pod install attempt $attempt/$max"
+    if (( attempt == 1 )); then
+      pod install --repo-update && return 0
+    else
+      pod install && return 0
+    fi
+    echo "pod install failed, retrying in 20s..."
+    sleep 20
+    attempt=$((attempt + 1))
+  done
+  return 1
+}
+
+(
+  cd ios
+  rm -rf Pods
+  pod_install_with_retry
+)
 
 "$FLUTTER" build ios --release --dart-define-from-file="$DART_DEFINE_FILE"
 
