@@ -28,7 +28,7 @@ if [[ ! -f "$PLAY_SA" ]]; then
 fi
 
 echo "uploading android to Play track=$TRACK app=$APP_ID"
-TOKEN="$($PYTHON "$PLAY_TOKEN_SCRIPT")"
+TOKEN="$("$PYTHON" "$PLAY_TOKEN_SCRIPT")"
 [[ -n "$TOKEN" ]] || { echo "token failed"; exit 1; }
 echo "play token ok"
 
