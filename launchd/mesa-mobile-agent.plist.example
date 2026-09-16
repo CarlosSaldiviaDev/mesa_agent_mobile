@@ -7,11 +7,13 @@
     <string>mesa-mobile-agent</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/opt/mesa-mobile-agent/venv/bin/python</string>
-        <string>/opt/mesa-mobile-agent/agent.py</string>
+        <!-- use repo path (git pull) or /opt after rsync + venv; paths with spaces are ok -->
+        <string>/Users/YOU/Documents/GitHub/Sistema Administrativo Global/mesa_agent_mobile/venv/bin/python</string>
+        <string>-u</string>
+        <string>/Users/YOU/Documents/GitHub/Sistema Administrativo Global/mesa_agent_mobile/agent.py</string>
     </array>
     <key>WorkingDirectory</key>
-    <string>/opt/mesa-mobile-agent</string>
+    <string>/Users/YOU/Documents/GitHub/Sistema Administrativo Global/mesa_agent_mobile</string>
     <key>EnvironmentVariables</key>
     <dict>
         <key>PATH</key>
