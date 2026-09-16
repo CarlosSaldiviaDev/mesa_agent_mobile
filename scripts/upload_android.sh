@@ -28,7 +28,8 @@ if [[ ! -f "$PLAY_SA" ]]; then
 fi
 
 echo "uploading android to Play track=$TRACK app=$APP_ID"
-TOKEN="$("$PYTHON" "$PLAY_TOKEN_SCRIPT")"
+# explicit stdin; parent agent subprocess may not provide a tty
+TOKEN="$("$PYTHON" "$PLAY_TOKEN_SCRIPT" </dev/null)"
 [[ -n "$TOKEN" ]] || { echo "token failed"; exit 1; }
 echo "play token ok"
 

@@ -89,8 +89,9 @@ def run_script(script_name: str) -> str:
         return f"script not found: {script_name}"
     start = time.time()
     try:
+        # do not use bash -l here: login shell + DEVNULL stdin breaks nested python (play upload)
         result = subprocess.run(
-            ["/bin/bash", "-lc", f"cd '{SCRIPTS_DIR}' && /bin/bash '{script_path.name}'"],
+            ["/bin/bash", "-c", f"cd '{SCRIPTS_DIR}' && exec /bin/bash '{script_path.name}'"],
             capture_output=True,
             text=True,
             timeout=7200,

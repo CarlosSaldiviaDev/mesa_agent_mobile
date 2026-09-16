@@ -16,3 +16,10 @@ export PATH="$(dirname "$FLUTTER_BIN"):${PATH:-}"
 mesa_flutter() {
   "$FLUTTER_BIN" "$@" 0</dev/null
 }
+
+# nested python (play token, etc.) needs valid stdin when agent has no tty
+mesa_python() {
+  local py="${1:?python binary}"
+  shift
+  "$py" "$@" 0</dev/null
+}
