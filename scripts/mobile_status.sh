@@ -1,14 +1,13 @@
 #!/bin/bash
 set -euo pipefail
-BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-source "$BASE_DIR/config/agent.env"
-FLUTTER="${FLUTTER:-flutter}"
+# shellcheck disable=SC1091
+source "$(dirname "$0")/_common.sh"
 PROJECT="$MESA_MOBILE_REPO"
 
 echo "mesa mobile status"
 echo "----------------------------------"
 echo "host: $(hostname)"
-"$FLUTTER" --version 2>/dev/null | head -3 || true
+mesa_flutter --version 2>/dev/null | head -3 || true
 cd "$PROJECT"
 echo "pubspec: $(grep '^version:' pubspec.yaml)"
 echo "android versionName/Code from build.gradle.kts:"

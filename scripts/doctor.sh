@@ -1,13 +1,13 @@
 #!/bin/bash
 set -euo pipefail
+# shellcheck disable=SC1091
+source "$(dirname "$0")/_common.sh"
 BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-source "$BASE_DIR/config/agent.env"
-FLUTTER="${FLUTTER:-flutter}"
 
 echo "mesa mobile doctor"
 echo "----------------------------------"
 echo "host: $(hostname) user: $(whoami)"
-[[ -x "$FLUTTER" ]] && "$FLUTTER" --version || echo "flutter MISSING: $FLUTTER"
+[[ -x "$FLUTTER_BIN" ]] && mesa_flutter --version || echo "flutter MISSING: $FLUTTER_BIN"
 command -v java >/dev/null && java -version 2>&1 | head -1 || echo "java MISSING"
 command -v adb >/dev/null && adb version | head -1 || echo "adb MISSING"
 command -v xcodebuild >/dev/null && xcodebuild -version || echo "xcode MISSING"

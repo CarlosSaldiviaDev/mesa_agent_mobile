@@ -20,6 +20,8 @@ Texto o comando desconocido → lista de comandos.
 
 Los builds usan `--dart-define-from-file=config_production.json` (configurable en `config/agent.env`).
 
+Los scripts usan `mesa_flutter` (`scripts/_common.sh`) con stdin desde `/dev/null` para evitar el crash de Flutter `errno 9` cuando el proceso padre no tiene TTY (Telegram subprocess, launchd, Cursor agent).
+
 ---
 
 ## Install (Mac)

@@ -66,6 +66,23 @@ async def telegram_sender(application: Application) -> None:
                 await asyncio.sleep(2)
 
 
+def _agent_env() -> dict[str, str]:
+    env = os.environ.copy()
+    agent_env_path = BASE_DIR / "config" / "agent.env"
+    if not agent_env_path.exists():
+        return env
+    for raw in agent_env_path.read_text().splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        env[key.strip()] = value.strip().strip('"').strip("'")
+    flutter_bin = env.get("FLUTTER", "flutter")
+    fvm_bin = str(Path(flutter_bin).parent)
+    env["PATH"] = fvm_bin + os.pathsep + env.get("PATH", "")
+    return env
+
+
 def run_script(script_name: str) -> str:
     script_path = SCRIPTS_DIR / script_name
     if not script_path.exists():
@@ -77,6 +94,8 @@ def run_script(script_name: str) -> str:
             capture_output=True,
             text=True,
             timeout=7200,
+            stdin=subprocess.DEVNULL,
+            env=_agent_env(),
         )
         elapsed = int(time.time() - start)
         out = (result.stdout or "").strip()

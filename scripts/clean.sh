@@ -1,11 +1,10 @@
 #!/bin/bash
 set -euo pipefail
-BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-source "$BASE_DIR/config/agent.env"
-FLUTTER="${FLUTTER:-flutter}"
+# shellcheck disable=SC1091
+source "$(dirname "$0")/_common.sh"
 PROJECT="$MESA_MOBILE_REPO"
 
 cd "$PROJECT" || exit 1
-"$FLUTTER" clean
-"$FLUTTER" pub get
+mesa_flutter clean
+mesa_flutter pub get
 echo "clean done"

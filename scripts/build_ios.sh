@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
+# shellcheck disable=SC1091
+source "$(dirname "$0")/_common.sh"
 BASE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-source "$BASE_DIR/config/agent.env"
-FLUTTER="${FLUTTER:-flutter}"
 PROJECT="$MESA_MOBILE_REPO"
 DART_DEFINE_FILE="${DART_DEFINE_FILE:-config_production.json}"
 ARTIFACTS="$BASE_DIR/artifacts/ios"
@@ -14,8 +14,8 @@ cd "$PROJECT" || exit 1
 VERSION=$(grep '^version:' pubspec.yaml | awk '{print $2}')
 COMMIT=$(git -C "$PROJECT" rev-parse --short HEAD 2>/dev/null || echo local)
 
-"$FLUTTER" clean
-"$FLUTTER" pub get
+mesa_flutter clean
+mesa_flutter pub get
 
 pod_install_with_retry() {
   local attempt=1
@@ -40,7 +40,7 @@ pod_install_with_retry() {
   pod_install_with_retry
 )
 
-"$FLUTTER" build ios --release --dart-define-from-file="$DART_DEFINE_FILE"
+mesa_flutter build ios --release --dart-define-from-file="$DART_DEFINE_FILE"
 
 ARCHIVE_PATH="build/ios/archive/Runner.xcarchive"
 xcodebuild archive \
